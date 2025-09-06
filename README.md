@@ -13,37 +13,65 @@ A powerful CLI tool for AI-powered code editing and review using Google's Gemini
 
 ## Installation
 
-### Quick Start (Recommended)
+### Install from GitHub (Recommended)
+
+Install DevAI directly from GitHub as a global npm package:
+
+```bash
+npm install -g github:vijoy-paul/devai
+```
+
+**Requirements:**
+- Node.js 16+ 
+- npm 7+
+- Git (for downloading from GitHub)
+
+This will:
+- Download and install DevAI from GitHub
+- Build the project automatically
+- Make the `devai` command available globally
+- Work on macOS, Windows, and Linux
+
+**Note:** The first installation may take a few minutes as it needs to download dependencies and build the TypeScript code.
+
+### Setup API Key
+
+After installation, set your Gemini API key:
+
+**macOS/Linux:**
+```bash
+export GEMINI_API_KEY="your-api-key-here"
+echo 'export GEMINI_API_KEY="your-api-key-here"' >> ~/.bashrc  # or ~/.zshrc
+```
+
+**Windows (Command Prompt):**
+```cmd
+set GEMINI_API_KEY=your-api-key-here
+```
+
+**Windows (PowerShell):**
+```powershell
+$env:GEMINI_API_KEY="your-api-key-here"
+[Environment]::SetEnvironmentVariable("GEMINI_API_KEY", "your-api-key-here", "User")
+```
+
+Get your free API key from [Google AI Studio](https://makersuite.google.com/app/apikey)
+
+### Uninstall
+
+To remove DevAI:
+
+```bash
+npm uninstall -g devai
+```
+
+### Alternative: Local Development Installation
+
+If you want to contribute or modify the code:
 
 1. Clone this repository:
 ```bash
-git clone https://github.com/yourusername/devai.git
-cd devai
-```
-
-2. Get your Gemini API key from [Google AI Studio](https://makersuite.google.com/app/apikey)
-
-3. Set up environment variables:
-```bash
-cp .env.example .env
-# Edit .env and add your API key
-```
-
-4. Run the setup script:
-```bash
-./setup.sh
-```
-
-5. Run the getting started guide:
-```bash
-./getting-started.sh
-```
-
-### Manual Installation
-
-1. Clone this repository:
-```bash
-git clone https://github.com/yourusername/devai.git
+git clone https://github.com/vijoy-paul/devai.git
 cd devai
 ```
 
@@ -57,7 +85,7 @@ npm install
 npm run build
 ```
 
-4. Link globally (optional):
+4. Link globally:
 ```bash
 npm link
 ```
@@ -105,31 +133,125 @@ npm link
 
 ## Usage
 
-### Edit Command
+### Quick Start Examples
 
-Edit code files using AI:
+Once installed, you can use DevAI to edit and review your code with natural language instructions:
 
 ```bash
-# Basic usage
-devai edit ./my-project "add a login route in Express"
+# Check if DevAI is installed
+devai --version
 
-# With preview mode
-devai edit ./my-project "add error handling" --preview
-
-# Force apply without confirmation
-devai edit ./my-project "refactor the code" --force
+# Get help
+devai --help
+devai edit --help
+devai review --help
 ```
 
-### Review Command
+### Edit Command Examples
 
-Review code files using AI:
+Edit your code files using AI with natural language instructions:
 
 ```bash
-# Review entire project
-devai review ./my-project "check for unused imports"
+# Basic edit - add new features
+devai edit ./my-project "add a login route in Express"
+devai edit ./my-app "implement user authentication with JWT"
+devai edit ./frontend "add a dark mode toggle component"
 
-# Review specific file
-devai review ./my-project "check for security issues" --file src/auth.js
+# Code improvements and refactoring
+devai edit ./backend "add error handling to all API routes"
+devai edit ./src "refactor functions to use async/await"
+devai edit ./components "optimize React components for performance"
+
+# Add TypeScript types
+devai edit ./my-project "add TypeScript types to all functions"
+devai edit ./api "convert JavaScript files to TypeScript"
+
+# Security improvements
+devai edit ./auth "add input validation and sanitization"
+devai edit ./routes "implement rate limiting for API endpoints"
+
+# Database operations
+devai edit ./models "add database migrations for user table"
+devai edit ./queries "optimize database queries for better performance"
+
+# Testing
+devai edit ./tests "add unit tests for all utility functions"
+devai edit ./src "add error boundary components"
+
+# Documentation
+devai edit ./README.md "update installation instructions"
+devai edit ./docs "add API documentation for all endpoints"
+```
+
+### Review Command Examples
+
+Get AI-powered code reviews and suggestions:
+
+```bash
+# General code review
+devai review ./my-project "check for code quality issues"
+devai review ./src "find potential bugs and improvements"
+devai review ./backend "review for security vulnerabilities"
+
+# Performance review
+devai review ./my-app "check for performance bottlenecks"
+devai review ./components "find memory leaks and optimization opportunities"
+
+# Security review
+devai review ./auth "check for security vulnerabilities"
+devai review ./api "review for potential security issues"
+
+# Code style and best practices
+devai review ./src "check for coding standards and best practices"
+devai review ./utils "find unused code and dead functions"
+
+# Specific file review
+devai review ./my-project "check for unused imports" --file src/utils.js
+devai review ./backend "review authentication logic" --file src/auth.js
+devai review ./frontend "check component structure" --file src/components/UserProfile.tsx
+
+# Framework-specific reviews
+devai review ./react-app "check React best practices and hooks usage"
+devai review ./express-api "review Express.js patterns and middleware"
+devai review ./vue-app "check Vue.js component structure and composition"
+```
+
+### Advanced Usage Examples
+
+```bash
+# Preview changes before applying (recommended)
+devai edit ./my-project "add user profile page" --preview
+
+# Force apply without confirmation prompts
+devai edit ./my-project "fix all linting errors" --force
+
+# Edit specific file types
+devai edit ./src "add JSDoc comments to all functions"  # Will target .js files
+devai edit ./components "add PropTypes to React components"  # Will target .jsx/.tsx files
+
+# Review with specific focus
+devai review ./my-project "check for accessibility issues in components"
+devai review ./api "review error handling patterns"
+devai review ./database "check for SQL injection vulnerabilities"
+```
+
+### Real-World Workflow Examples
+
+```bash
+# 1. Start a new feature
+devai edit ./src "create a new user registration component with form validation"
+
+# 2. Review the changes
+devai review ./src "check the new registration component for security and UX issues"
+
+# 3. Add tests
+devai edit ./tests "add unit tests for the registration component"
+
+# 4. Update documentation
+devai edit ./README.md "add documentation for the new registration feature"
+
+# 5. Final review
+devai review ./my-project "do a final review of the registration feature implementation"
 ```
 
 ## Commands
@@ -230,6 +352,12 @@ The tool uses the following environment variables:
    - The free Gemini API has rate limits
    - The tool processes files in batches to respect these limits
 
+5. **GitHub Installation Issues**
+   - Make sure you have Git installed: `git --version`
+   - Ensure you have Node.js 16+ and npm 7+: `node --version && npm --version`
+   - If installation fails, try: `npm cache clean --force` then retry
+   - On Windows, you may need to run as Administrator
+
 ## 📚 Documentation
 
 - **[USER_GUIDE.md](./USER_GUIDE.md)** - Complete user guide with examples and best practices
@@ -241,6 +369,18 @@ The tool uses the following environment variables:
 ## 🚀 Quick Commands
 
 ```bash
+# Install DevAI
+npm install -g github:vijoy-paul/devai
+
+# Set up API key (macOS/Linux)
+export GEMINI_API_KEY="your-api-key-here"
+
+# Set up API key (Windows)
+set GEMINI_API_KEY=your-api-key-here
+
+# Check installation
+devai --version
+
 # Edit with preview (recommended)
 devai edit ./my-project "your instruction" --preview
 
@@ -249,6 +389,41 @@ devai review ./my-project "your review instruction"
 
 # Get help
 devai --help
+devai edit --help
+devai review --help
+
+# Uninstall
+npm uninstall -g devai
+```
+
+## 📝 Common Use Cases
+
+### Adding New Features
+```bash
+devai edit ./src "add user profile page with edit functionality"
+devai edit ./api "create REST endpoints for user management"
+devai edit ./components "add a responsive navigation menu"
+```
+
+### Code Quality & Security
+```bash
+devai review ./my-project "check for security vulnerabilities"
+devai edit ./src "add input validation to all forms"
+devai review ./auth "review authentication implementation"
+```
+
+### Performance & Optimization
+```bash
+devai review ./my-app "find performance bottlenecks"
+devai edit ./components "optimize React components for better performance"
+devai edit ./database "optimize slow database queries"
+```
+
+### Testing & Documentation
+```bash
+devai edit ./tests "add unit tests for all utility functions"
+devai edit ./docs "update API documentation"
+devai review ./tests "check test coverage and quality"
 ```
 
 ## 🤝 Contributing
@@ -266,7 +441,7 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 
 ### Development Setup:
 ```bash
-git clone https://github.com/yourusername/devai.git
+git clone https://github.com/vijoy-paul/devai.git
 cd devai
 npm install
 cp .env.example .env
