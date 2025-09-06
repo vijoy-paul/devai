@@ -14,13 +14,15 @@ export function createEditCommand(): Command {
   
   command
     .description('Edit code files using AI')
-    .argument('<project-path>', 'Path to the project directory')
     .argument('<instruction>', 'Instruction for the AI to edit the code')
+    .argument('[project-path]', 'Path to the project directory (defaults to current directory)')
     .option('-p, --preview', 'Show preview of changes before applying')
     .option('-f, --force', 'Skip confirmation prompts')
-    .action(async (projectPath: string, instruction: string, options: EditOptions) => {
+    .action(async (instruction: string, projectPath: string | undefined, options: EditOptions) => {
       try {
-        await handleEditCommand(projectPath, instruction, options);
+        // Use current directory if no project path provided
+        const targetPath = projectPath || process.cwd();
+        await handleEditCommand(targetPath, instruction, options);
       } catch (error) {
         console.error(chalk.red('Error:'), error instanceof Error ? error.message : 'Unknown error');
         process.exit(1);

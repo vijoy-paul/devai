@@ -12,12 +12,14 @@ function createReviewCommand() {
     const command = new commander_1.Command('review');
     command
         .description('Review code files using AI')
-        .argument('<project-path>', 'Path to the project directory')
         .argument('<instruction>', 'Review instruction for the AI')
+        .argument('[project-path]', 'Path to the project directory (defaults to current directory)')
         .option('-f, --file <file>', 'Review specific file instead of entire project')
-        .action(async (projectPath, instruction, options) => {
+        .action(async (instruction, projectPath, options) => {
         try {
-            await handleReviewCommand(projectPath, instruction, options);
+            // Use current directory if no project path provided
+            const targetPath = projectPath || process.cwd();
+            await handleReviewCommand(targetPath, instruction, options);
         }
         catch (error) {
             console.error(chalk_1.default.red('Error:'), error instanceof Error ? error.message : 'Unknown error');
