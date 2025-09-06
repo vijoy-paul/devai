@@ -5,6 +5,29 @@ All notable changes to DevAI will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2024-09-06
+
+### Added
+- **Simplified command syntax**: Project path is now optional and defaults to current directory
+- **Improved user experience**: Users can now run `devai edit "instruction"` or `devai review "instruction"` directly
+- **Backward compatibility**: Still supports specifying custom project paths when needed
+
+### Changed
+- **Command argument order**: Instruction is now the first argument, project path is optional second argument
+- **Updated help text**: Reflects new simplified command syntax
+- **Updated documentation**: All examples now show the simplified usage
+
+### Examples
+```bash
+# New simplified syntax (uses current directory)
+devai edit "add error handling"
+devai review "check for security issues"
+
+# Still supports custom paths
+devai edit "add feature" ./my-project
+devai review "check code" ./backend
+```
+
 ## [1.0.0] - 2024-09-06
 
 ### Added

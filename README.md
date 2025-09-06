@@ -212,35 +212,39 @@ devai review --help
 Edit your code files using AI with natural language instructions:
 
 ```bash
-# Basic edit - add new features
-devai edit ./my-project "add a login route in Express"
-devai edit ./my-app "implement user authentication with JWT"
-devai edit ./frontend "add a dark mode toggle component"
+# Basic edit - add new features (uses current directory)
+devai edit "add a login route in Express"
+devai edit "implement user authentication with JWT"
+devai edit "add a dark mode toggle component"
 
 # Code improvements and refactoring
-devai edit ./backend "add error handling to all API routes"
-devai edit ./src "refactor functions to use async/await"
-devai edit ./components "optimize React components for performance"
+devai edit "add error handling to all API routes"
+devai edit "refactor functions to use async/await"
+devai edit "optimize React components for performance"
 
 # Add TypeScript types
-devai edit ./my-project "add TypeScript types to all functions"
-devai edit ./api "convert JavaScript files to TypeScript"
+devai edit "add TypeScript types to all functions"
+devai edit "convert JavaScript files to TypeScript"
 
 # Security improvements
-devai edit ./auth "add input validation and sanitization"
-devai edit ./routes "implement rate limiting for API endpoints"
+devai edit "add input validation and sanitization"
+devai edit "implement rate limiting for API endpoints"
 
 # Database operations
-devai edit ./models "add database migrations for user table"
-devai edit ./queries "optimize database queries for better performance"
+devai edit "add database migrations for user table"
+devai edit "optimize database queries for better performance"
 
 # Testing
-devai edit ./tests "add unit tests for all utility functions"
-devai edit ./src "add error boundary components"
+devai edit "add unit tests for all utility functions"
+devai edit "add error boundary components"
 
 # Documentation
-devai edit ./README.md "update installation instructions"
-devai edit ./docs "add API documentation for all endpoints"
+devai edit "update installation instructions"
+devai edit "add API documentation for all endpoints"
+
+# Specify different directory (optional)
+devai edit "add new feature" ./my-project
+devai edit "refactor code" ./backend
 ```
 
 ### Review Command Examples
@@ -248,32 +252,36 @@ devai edit ./docs "add API documentation for all endpoints"
 Get AI-powered code reviews and suggestions:
 
 ```bash
-# General code review
-devai review ./my-project "check for code quality issues"
-devai review ./src "find potential bugs and improvements"
-devai review ./backend "review for security vulnerabilities"
+# General code review (uses current directory)
+devai review "check for code quality issues"
+devai review "find potential bugs and improvements"
+devai review "review for security vulnerabilities"
 
 # Performance review
-devai review ./my-app "check for performance bottlenecks"
-devai review ./components "find memory leaks and optimization opportunities"
+devai review "check for performance bottlenecks"
+devai review "find memory leaks and optimization opportunities"
 
 # Security review
-devai review ./auth "check for security vulnerabilities"
-devai review ./api "review for potential security issues"
+devai review "check for security vulnerabilities"
+devai review "review for potential security issues"
 
 # Code style and best practices
-devai review ./src "check for coding standards and best practices"
-devai review ./utils "find unused code and dead functions"
+devai review "check for coding standards and best practices"
+devai review "find unused code and dead functions"
 
 # Specific file review
-devai review ./my-project "check for unused imports" --file src/utils.js
-devai review ./backend "review authentication logic" --file src/auth.js
-devai review ./frontend "check component structure" --file src/components/UserProfile.tsx
+devai review "check for unused imports" --file src/utils.js
+devai review "review authentication logic" --file src/auth.js
+devai review "check component structure" --file src/components/UserProfile.tsx
 
 # Framework-specific reviews
-devai review ./react-app "check React best practices and hooks usage"
-devai review ./express-api "review Express.js patterns and middleware"
-devai review ./vue-app "check Vue.js component structure and composition"
+devai review "check React best practices and hooks usage"
+devai review "review Express.js patterns and middleware"
+devai review "check Vue.js component structure and composition"
+
+# Specify different directory (optional)
+devai review "check for issues" ./my-project
+devai review "review code quality" ./backend
 ```
 
 ### Advanced Usage Examples
@@ -447,11 +455,15 @@ set GEMINI_API_KEY=your-api-key-here
 # Check installation
 devai --version
 
-# Edit with preview (recommended)
-devai edit ./my-project "your instruction" --preview
+# Edit with preview (recommended) - uses current directory
+devai edit "your instruction" --preview
 
-# Review code
-devai review ./my-project "your review instruction"
+# Review code - uses current directory
+devai review "your review instruction"
+
+# Specify different directory (optional)
+devai edit "your instruction" ./my-project --preview
+devai review "your review instruction" ./my-project
 
 # Get help
 devai --help
@@ -469,30 +481,30 @@ npm uninstall -g devai
 
 ### Adding New Features
 ```bash
-devai edit ./src "add user profile page with edit functionality"
-devai edit ./api "create REST endpoints for user management"
-devai edit ./components "add a responsive navigation menu"
+devai edit "add user profile page with edit functionality"
+devai edit "create REST endpoints for user management"
+devai edit "add a responsive navigation menu"
 ```
 
 ### Code Quality & Security
 ```bash
-devai review ./my-project "check for security vulnerabilities"
-devai edit ./src "add input validation to all forms"
-devai review ./auth "review authentication implementation"
+devai review "check for security vulnerabilities"
+devai edit "add input validation to all forms"
+devai review "review authentication implementation"
 ```
 
 ### Performance & Optimization
 ```bash
-devai review ./my-app "find performance bottlenecks"
-devai edit ./components "optimize React components for better performance"
-devai edit ./database "optimize slow database queries"
+devai review "find performance bottlenecks"
+devai edit "optimize React components for better performance"
+devai edit "optimize slow database queries"
 ```
 
 ### Testing & Documentation
 ```bash
-devai edit ./tests "add unit tests for all utility functions"
-devai edit ./docs "update API documentation"
-devai review ./tests "check test coverage and quality"
+devai edit "add unit tests for all utility functions"
+devai edit "update API documentation"
+devai review "check test coverage and quality"
 ```
 
 ## 🤝 Contributing
@@ -526,7 +538,7 @@ DevAI follows [Semantic Versioning](https://semver.org/):
 - **MINOR** version for backwards-compatible functionality additions  
 - **PATCH** version for backwards-compatible bug fixes
 
-### Current Version: 1.0.0
+### Current Version: 1.1.0
 
 ### Version Commands (for developers)
 ```bash
