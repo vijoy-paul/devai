@@ -2,9 +2,39 @@ import { Command } from 'commander';
 import chalk from 'chalk';
 import { GeminiClient } from '../geminiClient';
 import { FileUtils, FileInfo } from '../fileUtils';
+import * as fs from 'fs';
+import * as path from 'path';
 
 interface ReviewOptions {
   file?: string;
+}
+
+// Helper function to detect if first argument is a path or instruction
+function parseReviewArguments(args: string[]): { instruction: string; projectPath: string } {
+  if (args.length === 0) {
+    throw new Error('Instruction is required');
+  }
+  
+  if (args.length === 1) {
+    // Only instruction provided, use current directory
+    return { instruction: args[0], projectPath: process.cwd() };
+  }
+  
+  // Check if first argument looks like a path
+  const firstArg = args[0];
+  const isPath = firstArg.startsWith('./') || 
+                 firstArg.startsWith('../') || 
+                 firstArg.startsWith('/') || 
+                 (firstArg.includes('/') && !firstArg.includes(' ')) ||
+                 fs.existsSync(path.resolve(firstArg));
+  
+  if (isPath) {
+    // Old format: path first, then instruction
+    return { instruction: args[1], projectPath: firstArg };
+  } else {
+    // New format: instruction first, then optional path
+    return { instruction: firstArg, projectPath: args[1] || process.cwd() };
+  }
 }
 
 export function createReviewCommand(): Command {
@@ -12,14 +42,15 @@ export function createReviewCommand(): Command {
   
   command
     .description('Review code files using AI')
-    .argument('<instruction>', 'Review instruction for the AI')
-    .argument('[project-path]', 'Path to the project directory (defaults to current directory)')
+    .argument('[instruction-or-path]', 'Review instruction for the AI or path to project directory')
+    .argument('[path-or-instruction]', 'Path to project directory or review instruction for the AI')
     .option('-f, --file <file>', 'Review specific file instead of entire project')
-    .action(async (instruction: string, projectPath: string | undefined, options: ReviewOptions) => {
+    .action(async (arg1: string | undefined, arg2: string | undefined, options: ReviewOptions) => {
       try {
-        // Use current directory if no project path provided
-        const targetPath = projectPath || process.cwd();
-        await handleReviewCommand(targetPath, instruction, options);
+        // Parse arguments intelligently
+        const args = [arg1, arg2].filter(Boolean) as string[];
+        const { instruction, projectPath } = parseReviewArguments(args);
+        await handleReviewCommand(projectPath, instruction, options);
       } catch (error) {
         console.error(chalk.red('Error:'), error instanceof Error ? error.message : 'Unknown error');
         process.exit(1);

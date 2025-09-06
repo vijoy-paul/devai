@@ -10,7 +10,7 @@ const program = new Command();
 program
   .name('devai')
   .description('AI-powered code editing and review tool using Gemini API')
-  .version('1.1.0');
+  .version('1.2.0');
 
 // Add commands
 program.addCommand(createEditCommand());

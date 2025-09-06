@@ -1,4 +1,37 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -8,18 +41,46 @@ const commander_1 = require("commander");
 const chalk_1 = __importDefault(require("chalk"));
 const geminiClient_1 = require("../geminiClient");
 const fileUtils_1 = require("../fileUtils");
+const fs = __importStar(require("fs"));
+const path = __importStar(require("path"));
+// Helper function to detect if first argument is a path or instruction
+function parseReviewArguments(args) {
+    if (args.length === 0) {
+        throw new Error('Instruction is required');
+    }
+    if (args.length === 1) {
+        // Only instruction provided, use current directory
+        return { instruction: args[0], projectPath: process.cwd() };
+    }
+    // Check if first argument looks like a path
+    const firstArg = args[0];
+    const isPath = firstArg.startsWith('./') ||
+        firstArg.startsWith('../') ||
+        firstArg.startsWith('/') ||
+        (firstArg.includes('/') && !firstArg.includes(' ')) ||
+        fs.existsSync(path.resolve(firstArg));
+    if (isPath) {
+        // Old format: path first, then instruction
+        return { instruction: args[1], projectPath: firstArg };
+    }
+    else {
+        // New format: instruction first, then optional path
+        return { instruction: firstArg, projectPath: args[1] || process.cwd() };
+    }
+}
 function createReviewCommand() {
     const command = new commander_1.Command('review');
     command
         .description('Review code files using AI')
-        .argument('<instruction>', 'Review instruction for the AI')
-        .argument('[project-path]', 'Path to the project directory (defaults to current directory)')
+        .argument('[instruction-or-path]', 'Review instruction for the AI or path to project directory')
+        .argument('[path-or-instruction]', 'Path to project directory or review instruction for the AI')
         .option('-f, --file <file>', 'Review specific file instead of entire project')
-        .action(async (instruction, projectPath, options) => {
+        .action(async (arg1, arg2, options) => {
         try {
-            // Use current directory if no project path provided
-            const targetPath = projectPath || process.cwd();
-            await handleReviewCommand(targetPath, instruction, options);
+            // Parse arguments intelligently
+            const args = [arg1, arg2].filter(Boolean);
+            const { instruction, projectPath } = parseReviewArguments(args);
+            await handleReviewCommand(projectPath, instruction, options);
         }
         catch (error) {
             console.error(chalk_1.default.red('Error:'), error instanceof Error ? error.message : 'Unknown error');
