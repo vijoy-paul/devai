@@ -574,7 +574,7 @@ DevAI follows [Semantic Versioning](https://semver.org/):
 - **MINOR** version for backwards-compatible functionality additions  
 - **PATCH** version for backwards-compatible bug fixes
 
-### Current Version: 1.1.0
+### Current Version: 1.2.0
 
 ### Version Commands (for developers)
 ```bash

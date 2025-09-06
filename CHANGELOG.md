@@ -5,6 +5,38 @@ All notable changes to DevAI will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2024-09-06
+
+### Added
+- **Intelligent argument parsing**: DevAI now automatically detects whether you're using the old or new command syntax
+- **Full backward compatibility**: Supports both old format (`devai edit ./path "instruction"`) and new format (`devai edit "instruction" ./path`)
+- **Smart path detection**: Automatically identifies paths vs instructions using multiple heuristics
+- **Comprehensive update instructions**: Added detailed steps for updating global GitHub installations
+- **One-liner update commands**: Quick update commands for experienced users
+
+### Changed
+- **Flexible command syntax**: Both argument orders now work seamlessly
+- **Enhanced documentation**: Updated README with comprehensive update instructions
+- **Improved user experience**: No need to remember specific argument order
+
+### Technical Details
+- **Path detection logic**: Checks for `./`, `../`, `/`, existing directories, and file patterns
+- **Fallback handling**: Uses current directory when no path is specified
+- **Error handling**: Graceful handling of non-existent paths and edge cases
+
+### Examples
+```bash
+# All these formats now work:
+devai edit "add error handling"                    # New syntax
+devai edit "add error handling" ./my-project       # New syntax with path
+devai edit ./my-project "add error handling"       # Old syntax (still works)
+devai review "check for security issues"           # New syntax
+devai review ./my-project "check for security"     # Old syntax (still works)
+
+# Update commands:
+cd $(npm root -g)/devai && git pull origin main && npm install && npm run build && npm link
+```
+
 ## [1.1.0] - 2024-09-06
 
 ### Added
