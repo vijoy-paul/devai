@@ -15,10 +15,19 @@ A powerful CLI tool for AI-powered code editing and review using Google's Gemini
 
 ### Install from GitHub (Recommended)
 
-Install DevAI directly from GitHub as a global npm package:
+Install DevAI directly from GitHub:
 
 ```bash
-npm install -g github:vijoy-paul/devai
+# Clone the repository
+git clone https://github.com/vijoy-paul/devai.git
+cd devai
+
+# Install dependencies and build
+npm install
+npm run build
+
+# Link globally
+npm link
 ```
 
 **Requirements:**
@@ -27,12 +36,16 @@ npm install -g github:vijoy-paul/devai
 - Git (for downloading from GitHub)
 
 This will:
-- Download and install DevAI from GitHub
-- Build the project automatically
+- Download DevAI from GitHub
+- Install dependencies
+- Build the project
 - Make the `devai` command available globally
 - Work on macOS, Windows, and Linux
 
-**Note:** The first installation may take a few minutes as it needs to download dependencies and build the TypeScript code.
+**Alternative: One-liner installation**
+```bash
+git clone https://github.com/vijoy-paul/devai.git && cd devai && npm install && npm run build && npm link
+```
 
 ### Setup API Key
 
@@ -370,7 +383,7 @@ The tool uses the following environment variables:
 
 ```bash
 # Install DevAI
-npm install -g github:vijoy-paul/devai
+git clone https://github.com/vijoy-paul/devai.git && cd devai && npm install && npm run build && npm link
 
 # Set up API key (macOS/Linux)
 export GEMINI_API_KEY="your-api-key-here"
