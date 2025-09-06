@@ -72,7 +72,9 @@ Get your free API key from [Google AI Studio](https://makersuite.google.com/app/
 
 ### Update
 
-To update DevAI to the latest version:
+#### For GitHub Installation (Recommended)
+
+If you installed DevAI using the GitHub clone method:
 
 ```bash
 # Check current version
@@ -95,7 +97,37 @@ npm link
 devai --version
 ```
 
-**Alternative: Fresh installation**
+#### For Global Installation from GitHub
+
+If you installed DevAI globally from GitHub:
+
+```bash
+# Check current version
+devai --version
+
+# Find your DevAI installation directory
+npm list -g devai
+
+# Navigate to the global installation directory
+# (Usually in ~/.nvm/versions/node/*/lib/node_modules/devai or similar)
+cd $(npm root -g)/devai
+
+# Pull the latest changes from GitHub
+git pull origin main
+
+# Install any new dependencies and rebuild
+npm install
+npm run build
+
+# Re-link globally (if needed)
+npm link
+
+# Verify the update
+devai --version
+```
+
+#### Alternative: Fresh Installation
+
 ```bash
 # Remove old installation
 rm -rf devai
@@ -108,7 +140,8 @@ npm run build
 npm link
 ```
 
-**Check for updates:**
+#### Check for Updates
+
 ```bash
 # Check if there are new releases on GitHub
 git fetch origin
@@ -470,8 +503,11 @@ devai --help
 devai edit --help
 devai review --help
 
-# Update to latest version
+# Update to latest version (GitHub installation)
 cd devai && git pull origin main && npm install && npm run build && npm link
+
+# Update global installation
+cd $(npm root -g)/devai && git pull origin main && npm install && npm run build && npm link
 
 # Uninstall
 npm uninstall -g devai
