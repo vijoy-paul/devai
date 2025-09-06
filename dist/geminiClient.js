@@ -1,21 +1,26 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GeminiClient = void 0;
-const generative_ai_1 = require("@google/generative-ai");
+const genai_1 = require("@google/genai");
 class GeminiClient {
     constructor(apiKey) {
         if (!apiKey) {
             throw new Error('GEMINI_API_KEY environment variable is required');
         }
-        this.genAI = new generative_ai_1.GoogleGenerativeAI(apiKey);
-        this.model = this.genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+        this.genAI = new genai_1.GoogleGenAI({ apiKey });
+        this.modelName = 'gemini-1.5-flash';
     }
     async editCode(request) {
         const prompt = this.buildEditPrompt(request);
         try {
-            const result = await this.model.generateContent(prompt);
-            const response = await result.response;
-            const text = response.text();
+            const result = await this.genAI.models.generateContent({
+                model: this.modelName,
+                contents: [{ parts: [{ text: prompt }] }]
+            });
+            const text = result.text;
+            if (!text) {
+                throw new Error('No response text received from the model');
+            }
             return this.parseResponse(text, request.filePath);
         }
         catch (error) {
@@ -25,9 +30,15 @@ class GeminiClient {
     async reviewCode(code, instruction, filePath) {
         const prompt = this.buildReviewPrompt(code, instruction, filePath);
         try {
-            const result = await this.model.generateContent(prompt);
-            const response = await result.response;
-            return response.text();
+            const result = await this.genAI.models.generateContent({
+                model: this.modelName,
+                contents: [{ parts: [{ text: prompt }] }]
+            });
+            const text = result.text;
+            if (!text) {
+                throw new Error('No response text received from the model');
+            }
+            return text;
         }
         catch (error) {
             throw new Error(`Failed to review code: ${error instanceof Error ? error.message : 'Unknown error'}`);

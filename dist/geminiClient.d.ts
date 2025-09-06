@@ -9,7 +9,7 @@ export interface CodeEditResponse {
 }
 export declare class GeminiClient {
     private genAI;
-    private model;
+    private modelName;
     constructor(apiKey: string);
     editCode(request: CodeEditRequest): Promise<CodeEditResponse>;
     reviewCode(code: string, instruction: string, filePath: string): Promise<string>;

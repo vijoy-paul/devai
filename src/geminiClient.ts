@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenAI } from '@google/genai';
 
 export interface CodeEditRequest {
   code: string;
@@ -12,25 +12,31 @@ export interface CodeEditResponse {
 }
 
 export class GeminiClient {
-  private genAI: GoogleGenerativeAI;
-  private model: any;
+  private genAI: GoogleGenAI;
+  private modelName: string;
 
   constructor(apiKey: string) {
     if (!apiKey) {
       throw new Error('GEMINI_API_KEY environment variable is required');
     }
     
-    this.genAI = new GoogleGenerativeAI(apiKey);
-    this.model = this.genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    this.genAI = new GoogleGenAI({ apiKey });
+    this.modelName = 'gemini-1.5-flash';
   }
 
   async editCode(request: CodeEditRequest): Promise<CodeEditResponse> {
     const prompt = this.buildEditPrompt(request);
     
     try {
-      const result = await this.model.generateContent(prompt);
-      const response = await result.response;
-      const text = response.text();
+      const result = await this.genAI.models.generateContent({
+        model: this.modelName,
+        contents: [{ parts: [{ text: prompt }] }]
+      });
+      const text = result.text;
+      
+      if (!text) {
+        throw new Error('No response text received from the model');
+      }
       
       return this.parseResponse(text, request.filePath);
     } catch (error) {
@@ -42,9 +48,17 @@ export class GeminiClient {
     const prompt = this.buildReviewPrompt(code, instruction, filePath);
     
     try {
-      const result = await this.model.generateContent(prompt);
-      const response = await result.response;
-      return response.text();
+      const result = await this.genAI.models.generateContent({
+        model: this.modelName,
+        contents: [{ parts: [{ text: prompt }] }]
+      });
+      const text = result.text;
+      
+      if (!text) {
+        throw new Error('No response text received from the model');
+      }
+      
+      return text;
     } catch (error) {
       throw new Error(`Failed to review code: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
