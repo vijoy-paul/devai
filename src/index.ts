@@ -16,9 +16,6 @@ program
 program.addCommand(createEditCommand());
 program.addCommand(createReviewCommand());
 
-// Global error handling
-program.exitOverride();
-
 try {
   program.parse();
 } catch (error) {
@@ -28,9 +25,4 @@ try {
     console.error(chalk.red('An unexpected error occurred'));
   }
   process.exit(1);
-}
-
-// Show help if no command provided
-if (!process.argv.slice(2).length) {
-  program.outputHelp();
 }

@@ -16,8 +16,6 @@ program
 // Add commands
 program.addCommand((0, edit_1.createEditCommand)());
 program.addCommand((0, review_1.createReviewCommand)());
-// Global error handling
-program.exitOverride();
 try {
     program.parse();
 }
@@ -29,9 +27,5 @@ catch (error) {
         console.error(chalk_1.default.red('An unexpected error occurred'));
     }
     process.exit(1);
-}
-// Show help if no command provided
-if (!process.argv.slice(2).length) {
-    program.outputHelp();
 }
 //# sourceMappingURL=index.js.map
