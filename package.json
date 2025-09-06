@@ -10,8 +10,7 @@
     "build": "tsc",
     "dev": "ts-node src/index.ts",
     "start": "node dist/index.js",
-    "link": "npm run build && npm link",
-    "postinstall": "echo 'DevAI installed successfully! Set your GEMINI_API_KEY environment variable to start using it.'"
+    "link": "npm run build && npm link"
   },
   "keywords": ["cli", "ai", "code-editor", "gemini", "typescript"],
   "author": "",
