@@ -463,6 +463,33 @@ npm run build
 npm link
 ```
 
+## Version Management
+
+DevAI follows [Semantic Versioning](https://semver.org/):
+- **MAJOR** version for incompatible API changes
+- **MINOR** version for backwards-compatible functionality additions  
+- **PATCH** version for backwards-compatible bug fixes
+
+### Current Version: 1.0.0
+
+### Version Commands (for developers)
+```bash
+# Increment patch version (1.0.0 → 1.0.1)
+npm run version:patch
+
+# Increment minor version (1.0.0 → 1.1.0)  
+npm run version:minor
+
+# Increment major version (1.0.0 → 2.0.0)
+npm run version:major
+
+# Build and release to GitHub
+npm run release
+```
+
+### Changelog
+See [CHANGELOG.md](./CHANGELOG.md) for detailed version history and changes.
+
 ## License
 
 MIT License - see LICENSE file for details.

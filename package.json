@@ -10,7 +10,12 @@
     "build": "tsc",
     "dev": "ts-node src/index.ts",
     "start": "node dist/index.js",
-    "link": "npm run build && npm link"
+    "link": "npm run build && npm link",
+    "update-version": "node scripts/update-version.js",
+    "version:patch": "npm version patch && npm run update-version && npm run build && git add . && git commit -m 'Release version $(npm pkg get version --workspaces=false | tr -d \",\")'",
+    "version:minor": "npm version minor && npm run update-version && npm run build && git add . && git commit -m 'Release version $(npm pkg get version --workspaces=false | tr -d \",\")'",
+    "version:major": "npm version major && npm run update-version && npm run build && git add . && git commit -m 'Release version $(npm pkg get version --workspaces=false | tr -d \",\")'",
+    "release": "npm run build && git add . && git commit -m 'Build for release' && git push && git push --tags"
   },
   "keywords": ["cli", "ai", "code-editor", "gemini", "typescript"],
   "author": "",
