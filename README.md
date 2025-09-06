@@ -70,6 +70,53 @@ $env:GEMINI_API_KEY="your-api-key-here"
 
 Get your free API key from [Google AI Studio](https://makersuite.google.com/app/apikey)
 
+### Update
+
+To update DevAI to the latest version:
+
+```bash
+# Check current version
+devai --version
+
+# Navigate to your DevAI directory
+cd devai
+
+# Pull the latest changes from GitHub
+git pull origin main
+
+# Install any new dependencies and rebuild
+npm install
+npm run build
+
+# Re-link globally
+npm link
+
+# Verify the update
+devai --version
+```
+
+**Alternative: Fresh installation**
+```bash
+# Remove old installation
+rm -rf devai
+
+# Install latest version
+git clone https://github.com/vijoy-paul/devai.git
+cd devai
+npm install
+npm run build
+npm link
+```
+
+**Check for updates:**
+```bash
+# Check if there are new releases on GitHub
+git fetch origin
+git log HEAD..origin/main --oneline
+
+# Or visit: https://github.com/vijoy-paul/devai/releases
+```
+
 ### Uninstall
 
 To remove DevAI:
@@ -371,6 +418,12 @@ The tool uses the following environment variables:
    - If installation fails, try: `npm cache clean --force` then retry
    - On Windows, you may need to run as Administrator
 
+6. **Update Issues**
+   - If `git pull` fails, try: `git fetch origin && git reset --hard origin/main`
+   - If build fails after update, try: `rm -rf node_modules && npm install && npm run build`
+   - If command not found after update, try: `npm unlink && npm link`
+   - For fresh installation: `rm -rf devai && git clone https://github.com/vijoy-paul/devai.git && cd devai && npm install && npm run build && npm link`
+
 ## 📚 Documentation
 
 - **[USER_GUIDE.md](./USER_GUIDE.md)** - Complete user guide with examples and best practices
@@ -404,6 +457,9 @@ devai review ./my-project "your review instruction"
 devai --help
 devai edit --help
 devai review --help
+
+# Update to latest version
+cd devai && git pull origin main && npm install && npm run build && npm link
 
 # Uninstall
 npm uninstall -g devai
