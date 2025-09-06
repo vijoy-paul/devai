@@ -28,7 +28,7 @@ export function createReviewCommand(): Command {
 }
 
 async function handleReviewCommand(projectPath: string, instruction: string, options: ReviewOptions): Promise<void> {
-  console.log(chalk.blue('🔍 AI Code Terminal - Review Mode'));
+  console.log(chalk.blue('🔍 devai terminal - Review Mode'));
   console.log(chalk.gray(`Project: ${projectPath}`));
   console.log(chalk.gray(`Review Instruction: ${instruction}`));
   console.log('');

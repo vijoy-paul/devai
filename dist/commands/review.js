@@ -27,7 +27,7 @@ function createReviewCommand() {
     return command;
 }
 async function handleReviewCommand(projectPath, instruction, options) {
-    console.log(chalk_1.default.blue('🔍 AI Code Terminal - Review Mode'));
+    console.log(chalk_1.default.blue('🔍 devai terminal - Review Mode'));
     console.log(chalk_1.default.gray(`Project: ${projectPath}`));
     console.log(chalk_1.default.gray(`Review Instruction: ${instruction}`));
     console.log('');

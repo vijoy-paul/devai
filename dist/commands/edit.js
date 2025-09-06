@@ -29,7 +29,7 @@ function createEditCommand() {
     return command;
 }
 async function handleEditCommand(projectPath, instruction, options) {
-    console.log(chalk_1.default.blue('🤖 AI Code Terminal - Edit Mode'));
+    console.log(chalk_1.default.blue('🤖 devai terminal - Edit Mode'));
     console.log(chalk_1.default.gray(`Project: ${projectPath}`));
     console.log(chalk_1.default.gray(`Instruction: ${instruction}`));
     console.log('');

@@ -1,7 +1,7 @@
 {
   "name": "test-project",
   "version": "1.0.0",
-  "description": "Test project for AI Code Terminal",
+  "description": "Test project for devai terminal",
   "main": "app.js",
   "scripts": {
     "start": "node app.js"

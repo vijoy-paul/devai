@@ -31,7 +31,7 @@ export function createEditCommand(): Command {
 }
 
 async function handleEditCommand(projectPath: string, instruction: string, options: EditOptions): Promise<void> {
-  console.log(chalk.blue('🤖 AI Code Terminal - Edit Mode'));
+  console.log(chalk.blue('🤖 devai terminal - Edit Mode'));
   console.log(chalk.gray(`Project: ${projectPath}`));
   console.log(chalk.gray(`Instruction: ${instruction}`));
   console.log('');
