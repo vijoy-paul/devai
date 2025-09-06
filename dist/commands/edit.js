@@ -55,18 +55,63 @@ function parseEditArguments(args) {
     }
     // Check if first argument looks like a path
     const firstArg = args[0];
-    const isPath = firstArg.startsWith('./') ||
+    const secondArg = args[1];
+    // Check if first argument is a path (directory or file)
+    const firstArgIsPath = firstArg.startsWith('./') ||
         firstArg.startsWith('../') ||
         firstArg.startsWith('/') ||
         (firstArg.includes('/') && !firstArg.includes(' ')) ||
         fs.existsSync(path.resolve(firstArg));
-    if (isPath) {
-        // Old format: path first, then instruction
-        return { instruction: args[1], projectPath: firstArg };
+    // Check if second argument is a path (directory or file)
+    const secondArgIsPath = secondArg.startsWith('./') ||
+        secondArg.startsWith('../') ||
+        secondArg.startsWith('/') ||
+        (secondArg.includes('/') && !secondArg.includes(' ')) ||
+        fs.existsSync(path.resolve(secondArg));
+    if (firstArgIsPath && secondArgIsPath) {
+        // Both are paths - this is ambiguous, prefer first as directory
+        const firstArgStat = fs.existsSync(path.resolve(firstArg)) ? fs.statSync(path.resolve(firstArg)) : null;
+        const secondArgStat = fs.existsSync(path.resolve(secondArg)) ? fs.statSync(path.resolve(secondArg)) : null;
+        // If first is a directory, use it as project path
+        if (firstArgStat && firstArgStat.isDirectory()) {
+            return { instruction: secondArg, projectPath: firstArg };
+        }
+        // If second is a directory, use it as project path
+        else if (secondArgStat && secondArgStat.isDirectory()) {
+            return { instruction: firstArg, projectPath: secondArg };
+        }
+        // If both are files, use current directory and treat first as instruction
+        else {
+            return { instruction: firstArg, projectPath: process.cwd() };
+        }
+    }
+    else if (firstArgIsPath) {
+        // First is path, second is instruction
+        const firstArgStat = fs.existsSync(path.resolve(firstArg)) ? fs.statSync(path.resolve(firstArg)) : null;
+        if (firstArgStat && firstArgStat.isDirectory()) {
+            // First is directory, second is instruction
+            return { instruction: secondArg, projectPath: firstArg };
+        }
+        else {
+            // First is file, second is instruction - use current directory as project path
+            return { instruction: secondArg, projectPath: process.cwd() };
+        }
+    }
+    else if (secondArgIsPath) {
+        // First is instruction, second is path
+        const secondArgStat = fs.existsSync(path.resolve(secondArg)) ? fs.statSync(path.resolve(secondArg)) : null;
+        if (secondArgStat && secondArgStat.isDirectory()) {
+            // Second is directory, first is instruction
+            return { instruction: firstArg, projectPath: secondArg };
+        }
+        else {
+            // Second is file, first is instruction - use current directory as project path
+            return { instruction: firstArg, projectPath: process.cwd() };
+        }
     }
     else {
-        // New format: instruction first, then optional path
-        return { instruction: firstArg, projectPath: args[1] || process.cwd() };
+        // Neither looks like a path, treat first as instruction, second as additional context
+        return { instruction: `${firstArg} ${secondArg}`, projectPath: process.cwd() };
     }
 }
 function createEditCommand() {
