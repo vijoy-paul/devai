@@ -5,7 +5,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # Build output
-dist/
+# dist/ - Commented out to allow GitHub installation
 build/
 
 # Environment variables
@@ -240,7 +240,7 @@ tramp
 
 # Nuxt.js build / generate output
 .nuxt
-dist
+# dist - Commented out to allow GitHub installation
 
 # Gatsby files
 .cache/
